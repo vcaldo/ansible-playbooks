@@ -1,0 +1,6 @@
+- name: Install Docker
+  package:
+    state: latest
+    name:
+      - docker.io
+      - docker-compose

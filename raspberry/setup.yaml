@@ -1,0 +1,28 @@
+  - hosts: all
+    strategy: free
+
+    pre_tasks:
+      - name: Upgrade all apt packages
+        apt:
+          autoremove: yes
+          force_apt_get: yes
+          upgrade: dist
+          update_cache: yes
+
+    roles:
+      - name: pi4-base
+      - name: docker
+      - name: pihole
+      - name: lazydocker
+
+    post_tasks:
+      - name: check if a reboot is required
+        shell: "[ -f /var/run/reboot-required ]"
+        failed_when: False
+        register: reboot_required
+
+      - name: Reboot
+        reboot:
+          reboot_timeout: 900
+          msg: Reboot initiated by Ansible
+        when: reboot_required.rc == 0

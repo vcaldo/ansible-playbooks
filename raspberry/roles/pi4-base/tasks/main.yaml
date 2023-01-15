@@ -1,0 +1,31 @@
+- name: Install Docker
+  package:
+    state: latest
+    name:
+      - bash-completion
+      - curl
+      - git
+      - libraspberrypi-bin
+      - unzip
+      - vim
+      - wget
+
+- name: Timezone SP
+  timezone:
+    name: Europe/Madrid
+
+- name: Get PI model
+  command: cat /sys/firmware/devicetree/base/model
+  register: pi_model
+
+- name: Overclock PI4
+  blockinfile:
+    path: /boot/firmware/config.txt
+    state: present
+    insertafter: EOF
+    block: |
+      over_voltage=6
+      arm_freq=2000
+      gpu_freq=750
+  when: pi_model['stdout_lines'][0] == "Raspberry Pi 4 Model B Rev 1.1\u0000" or pi_model['stdout_lines'][0] == "Raspberry Pi 4 Model B Rev 1.4\u0000"
+

@@ -1,0 +1,16 @@
+- name: Download install_update_linux.sh
+  get_url:
+    url: https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh
+    dest: /tmp/
+    mode: 0755
+
+- name: Install Lazydocker
+  command: /tmp/install_update_linux.sh
+  environment:
+    DIR: /usr/local/bin
+
+- name: Remove install_update_linux.sh
+  file:
+    state: absent
+    path: /tmp/install_update_linux.sh
+
