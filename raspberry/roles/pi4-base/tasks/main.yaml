@@ -1,4 +1,10 @@
-- name: Install Docker
+- name: Disable unattended-upgrades
+  package:
+    state: absent
+    name:
+      - unattended-upgrades
+
+- name: Install base packages
   package:
     state: latest
     name:
@@ -9,10 +15,6 @@
       - unzip
       - vim
       - wget
-
-- name: Timezone SP
-  timezone:
-    name: Europe/Madrid
 
 - name: Get PI model
   command: cat /sys/firmware/devicetree/base/model
@@ -29,3 +31,6 @@
       gpu_freq=750
   when: pi_model['stdout_lines'][0] == "Raspberry Pi 4 Model B Rev 1.1\u0000" or pi_model['stdout_lines'][0] == "Raspberry Pi 4 Model B Rev 1.4\u0000"
 
+- name: Set hostname from Inventory
+  hostname:
+    name: "{{ inventory_hostname }}"

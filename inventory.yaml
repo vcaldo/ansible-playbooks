@@ -1,7 +1,14 @@
 all:
   hosts:
     mamae:
-      ansible_host: 192.168.1.145
+      tags:
+        - master
+      ansible_host: 192.168.10.157
+    papai:
+      tags:
+        - worker
+      ansible_host: 192.168.10.14
+
   vars:
     ansible_user: root
     pihole_image: "pihole/pihole:latest"

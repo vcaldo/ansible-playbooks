@@ -1,5 +1,7 @@
   - hosts: all
     strategy: free
+    # become: yes
+    # become_user: root
 
     pre_tasks:
       - name: Upgrade all apt packages
@@ -10,9 +12,12 @@
           update_cache: yes
 
     roles:
+      - name: htpdate
       - name: pi4-base
       - name: docker
       - name: pihole
+        tags:
+         - master
       - name: lazydocker
 
     post_tasks:

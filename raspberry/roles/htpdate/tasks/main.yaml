@@ -1,0 +1,12 @@
+- name: Install htpdate package
+  package:
+    state: latest
+    name:
+      - htpdate
+
+- name: Timezone SP
+  timezone:
+    name: "{{ timezone }}"
+
+- name: Sync time with htpdate
+  command: htpdate time.google.com

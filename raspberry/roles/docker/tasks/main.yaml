@@ -4,3 +4,9 @@
     name:
       - docker.io
       - docker-compose
+
+- name: Ensure ansible_user is added to the docker group.
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true
