@@ -1,9 +1,15 @@
   - hosts: all
     strategy: free
-    # become: yes
-    # become_user: root
+    become: yes
+    become_user: root
 
     pre_tasks:
+      - name: Disable unattended-upgrades
+        package:
+          state: absent
+          name:
+            - unattended-upgrades
+
       - name: Upgrade all apt packages
         apt:
           autoremove: yes
