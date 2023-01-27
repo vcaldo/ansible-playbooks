@@ -1,16 +1,14 @@
 all:
   hosts:
     mamae:
-      tags:
-        - master
-      ansible_host: 192.168.10.157
+      ansible_host: 192.168.10.159
+      master_node: true
     papai:
-      tags:
-        - worker
       ansible_host: 192.168.10.14
+      master_node: false
 
   vars:
-    ansible_user: root
+    ansible_user: pi
     pihole_image: "pihole/pihole:latest"
     pihole_ftl_max_db_days: "180"
     pihole_webpassword: mamae # example value, change it and better use ansible-vault

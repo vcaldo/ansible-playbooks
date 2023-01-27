@@ -6,6 +6,7 @@
       - curl
       - git
       - libraspberrypi-bin
+      - net-tools
       - unzip
       - vim
       - wget
@@ -26,6 +27,27 @@
   when: pi_model['stdout_lines'][0] == "Raspberry Pi 4 Model B Rev 1.1\u0000" or pi_model['stdout_lines'][0] == "Raspberry Pi 4 Model B Rev 1.4\u0000"
 
 - name: Set hostname from Inventory
-  hostname:
+  ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
     use: systemd
+
+- name: Get the non root remote user
+  set_fact:
+    remote_regular_user: "{{ ansible_env.SUDO_USER or ansible_user_id }}"
+
+- name: Add public key to .ssh/authorized_keys
+  authorized_key:
+    user: pi
+    state: present
+    key: "{{ lookup('file', '/Users/vcaldo/.ssh/id_rsa.pub') }}"
+  with_items:
+    - root
+    - "{{ ansible_user }}"
+
+- name: Enable sudo without password
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'

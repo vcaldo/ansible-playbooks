@@ -28,6 +28,11 @@
     execution_mode: "single node setup"
   when: not pihole_ha_mode
 
+- name: Disable systemd-resolved service to release port 53
+  service:
+    name: systemd-resolved
+    state: stopped
+
 - name: Start/Update pihole container
   docker_container:
     name: pihole

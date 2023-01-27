@@ -9,4 +9,4 @@
     name: "{{ timezone }}"
 
 - name: Sync time with htpdate
-  command: htpdate time.google.com
+  command: htpdate -s time.google.com

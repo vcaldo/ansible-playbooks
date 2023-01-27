@@ -10,3 +10,17 @@
     name: "{{ ansible_user }}"
     groups: docker
     append: true
+
+- name: Enable docker.service
+  systemd:
+    name: docker.service
+    daemon_reload: true
+    enabled: true
+
+- name: Test if docker is working
+  docker_container:
+    name: testing
+    image: busybox
+    state: started
+    detach: false
+    cleanup: true
