@@ -2,10 +2,10 @@ all:
   hosts:
     mamae:
       ansible_host: 192.168.10.159
-      master_node: true
+      pihole_node: true
     papai:
       ansible_host: 192.168.10.14
-      master_node: false
+      pihole_node: false
 
   vars:
     ansible_user: pi

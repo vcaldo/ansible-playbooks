@@ -21,8 +21,10 @@
       - name: htpdate
       - name: pi4-base
       - name: docker
+      - name: disable-systemd-resolved
+        when: pihole_node
       - name: pihole
-        when: master_node
+        when: pihole_node
       - name: lazydocker
 
     post_tasks:

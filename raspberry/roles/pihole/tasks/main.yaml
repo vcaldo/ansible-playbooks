@@ -28,11 +28,6 @@
     execution_mode: "single node setup"
   when: not pihole_ha_mode
 
-- name: Disable systemd-resolved service to release port 53
-  service:
-    name: systemd-resolved
-    state: stopped
-
 - name: Start/Update pihole container
   docker_container:
     name: pihole
@@ -48,6 +43,7 @@
       REV_SERVER_DOMAIN: "{{ pihole_rev_server_domain }}"
       REV_SERVER_TARGET: "{{ pihole_rev_server_target }}"
       REV_SERVER_CIDR: "{{ pihole_rev_server_cidr }}"
+      ServerIP: "{{ pihole_local_ipv4 }}"
       FTLCONF_MAXDBDAYS: "{{ pihole_ftl_max_db_days }}"
     dns_servers:
       - 127.0.0.1

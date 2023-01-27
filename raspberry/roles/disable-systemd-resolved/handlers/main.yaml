@@ -1,0 +1,8 @@
+- name: Remove STUB
+  file:
+    path: /etc/resolv.conf
+    state: absent
+- name: Restart NM
+  systemd:
+    name: NetworkManager
+    state: restarted
